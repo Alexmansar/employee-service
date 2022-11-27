@@ -1,4 +1,4 @@
-package org.alexmansar.view.frame;
+package org.alexmansar.view;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

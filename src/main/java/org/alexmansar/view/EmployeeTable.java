@@ -1,4 +1,4 @@
-package org.alexmansar.view.frame;
+package org.alexmansar.view;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.controller.EmployeeController;

@@ -1,4 +1,4 @@
-package org.alexmansar.view.frame;
+package org.alexmansar.view;
 
 import org.alexmansar.controller.DepartmentController;
 import org.alexmansar.model.Department;
@@ -121,4 +121,4 @@ public class DepartmentTable extends AbstractFrame {
         JOptionPane.showMessageDialog(null, builder.toString(), "ERROR", JOptionPane.ERROR_MESSAGE, null);
         builder.delete(0, builder.length()).append("You have to change input value");
     }
-}//
+}

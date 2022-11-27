@@ -7,10 +7,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.model.Department;
 import org.alexmansar.service.DepartmentService;
-import org.alexmansar.view.frame.AddFrame;
-import org.alexmansar.view.frame.DepartmentTable;
-import org.alexmansar.view.frame.FrameView;
-import org.alexmansar.view.frame.UpdateFrame;
+import org.alexmansar.view.AddFrame;
+import org.alexmansar.view.DepartmentTable;
+import org.alexmansar.view.FrameView;
+import org.alexmansar.view.UpdateFrame;
 
 import javax.swing.*;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Getter
 @NoArgsConstructor
-public class DepartmentController extends AbstractController {
+public class DepartmentController {
     DepartmentService departmentService;
     DepartmentTable departmentTable;
 

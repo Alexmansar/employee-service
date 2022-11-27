@@ -1,17 +1,13 @@
 package org.alexmansar.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alexmansar.view.frame.FrameView;
-import org.alexmansar.view.frame.MainFrame;
-
-import javax.swing.*;
+import org.alexmansar.view.MainFrame;
 
 @Slf4j
 public class FrameController {
 
     DepartmentController departmentController;
     EmployeeController employeeController;
-
     MainFrame mainFrame;
 
 
@@ -22,24 +18,6 @@ public class FrameController {
     }
 
     public void run() {
-        mainFrame.createFrame(this, departmentController, employeeController);
-    }
-
-
-    public void exit() {
-        Object[] options = {"Yes", "No!"};
-        int rc = JOptionPane.showOptionDialog(
-                null, "Close app?",
-                "Confirm exit", JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null, options, options[0]);
-        if (rc == 0) {
-            log.info("APP finished success");
-            System.exit(0);
-        }
-    }
-
-    public void about() {
-        FrameView.about();
+        mainFrame.createFrame(departmentController, employeeController);
     }
 }

@@ -5,7 +5,7 @@ import org.alexmansar.repository.EmployeeRepository;
 import org.alexmansar.service.impl.DepartmentServiceImpl;
 import org.alexmansar.service.impl.EmployeeServiceImpl;
 import org.alexmansar.utils.HibernateUtil;
-import org.alexmansar.view.frame.*;
+import org.alexmansar.view.*;
 import org.hibernate.Session;
 
 public class MainController {

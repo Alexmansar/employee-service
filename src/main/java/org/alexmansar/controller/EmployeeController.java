@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.model.Employee;
 import org.alexmansar.service.DepartmentService;
 import org.alexmansar.service.EmployeeService;
-import org.alexmansar.view.frame.AddFrame;
-import org.alexmansar.view.frame.EmployeeTable;
-import org.alexmansar.view.frame.FrameView;
-import org.alexmansar.view.frame.UpdateFrame;
+import org.alexmansar.view.AddFrame;
+import org.alexmansar.view.EmployeeTable;
+import org.alexmansar.view.FrameView;
+import org.alexmansar.view.UpdateFrame;
 
 import javax.swing.*;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EmployeeController extends AbstractController {
+public class EmployeeController {
 
     EmployeeService employeeService;
     EmployeeTable employeeTable;
