@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
+import org.alexmansar.model.Department;
 import org.alexmansar.model.Employee;
 import org.alexmansar.model.dto.EmployeeDto;
 
@@ -60,6 +61,10 @@ public class EmployeeRepository extends AbstractRepository {
             log.error(e.getMessage());
             Objects.requireNonNull(transaction).rollback();
         }
+    }
+
+    public List<Employee> getAllEmployeeByDepartment(Department department) {
+        return department.getEmployeeList();
     }
 
     public void removeEmployee(Employee employee) {

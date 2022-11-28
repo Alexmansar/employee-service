@@ -7,18 +7,16 @@ import org.alexmansar.model.Employee;
 import org.alexmansar.model.dto.EmployeeDto;
 import org.alexmansar.service.DepartmentService;
 import org.alexmansar.service.EmployeeService;
-import org.alexmansar.utils.StringUtil;
 import org.alexmansar.utils.RegEx;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class EmployeeTable extends AbstractFrame {
+public class EmployeeTable extends AbstractTable {
 
     private void createGUI(String[][] data, EmployeeService employeeService, EmployeeController employeeController, DepartmentService departmentService) {
         JFrame frame = createFrame(1200, 400, "EMPLOYEE");
@@ -39,13 +37,7 @@ public class EmployeeTable extends AbstractFrame {
                 "hiring date",
                 "Create date",
                 "Update date",};
-        DefaultTableModel defaultTableModel = new DefaultTableModel(data, columnNames);
-        JTable table = new JTable(defaultTableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-        mainPane.add(scrollPane);
-        mainPane.add(buttonPane);
-        frame.add(mainPane);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        JTable table = getTable(data, frame, mainPane, buttonPane, columnNames);
         table.getColumnModel().getColumn(0).setPreferredWidth(25);
         table.getColumnModel().getColumn(1).setPreferredWidth(100);
         table.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -59,11 +51,13 @@ public class EmployeeTable extends AbstractFrame {
         table.getColumnModel().getColumn(10).setPreferredWidth(120);
         table.getColumnModel().getColumn(11).setPreferredWidth(120);
         AddFrame addFrame = new AddFrame();
-        ActionListener addEmployeeListener = e -> addFrame.createAddEmployeeFrame(employeeService, departmentService, null);
-        ActionListener getAllEmployeeByDepartment = getAllEmployeeByDepartment(employeeService, employeeController, departmentService);
-        ActionListener getEmployeeById = e -> employeeController.addEmployee(addFrame, departmentService);
-        ActionListener updateEmployeeListener = updateListener(employeeService, table, frame, departmentJComboBox);
+        ActionListener addEmployeeListener = e -> addFrame.createAddEmployeeFrame(employeeService, departmentService, table);
+        ActionListener getAllEmployeeByDepartment = getAllEmployeeByDepartment(employeeController, departmentService, frame);
+        ActionListener getEmployeeById = e -> employeeController.getEmployee();
+        ActionListener updateEmployeeListener = updateListener(employeeService, table, departmentJComboBox);
         ActionListener removeEmployeeListener = getRemoveListener(employeeService, table);
+        ActionListener allEmployeeListener = allEmployeeListener(employeeController, departmentService, frame);
+        getButton("All employee", buttonPane, allEmployeeListener);
         getButton("Update", buttonPane, updateEmployeeListener);
         getButton("Remove", buttonPane, removeEmployeeListener);
         getButton("Add", buttonPane, addEmployeeListener);
@@ -73,7 +67,14 @@ public class EmployeeTable extends AbstractFrame {
         frame.setVisible(true);
     }
 
-    private ActionListener updateListener(EmployeeService employeeService, JTable table, JFrame frame, JComboBox<Department> departmentJComboBox) {
+    private ActionListener allEmployeeListener(EmployeeController employeeController, DepartmentService departmentService, JFrame mainFrame) {
+        return e -> {
+            employeeController.getEmployeeList(departmentService);
+            mainFrame.setVisible(false);
+        };
+    }
+
+    private ActionListener updateListener(EmployeeService employeeService, JTable table, JComboBox<Department> departmentJComboBox) {
         return e -> {
             int row = table.getSelectedRow();
             Employee employee = employeeService.getEmployee(Long.parseLong(table.getValueAt(row, 0).toString()));
@@ -119,15 +120,7 @@ public class EmployeeTable extends AbstractFrame {
 
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             if (FIRST_NAME_CHECK && LAST_NAME_CHECK && PHONE_CHECK && EMAIL_CHECK && ADDRESS_CHECK && SALARY_CHECK && BIRTHDAY_CHECK && HIRING_DATE_CHECK) {
-                FIRST_NAME = StringUtil.firstUpperCase(createText(firstNameField));
-                LAST_NAME = StringUtil.firstUpperCase(createText(lastNameField));
-                DEPARTMENT = (Department) departmentJComboBox.getSelectedItem();
-                EMAIL = StringUtil.firstUpperCase(createText(emailField));
-                PHONE = StringUtil.firstUpperCase(createText(phoneField));
-                ADDRESS = StringUtil.firstUpperCase(createText(addressField));
-                SALARY = Integer.parseInt(StringUtil.firstUpperCase(createText(salaryField)));
-                BIRTHDAY = createDate(birthdayField);
-                HIRING_DATE = createDate(hiringField);
+                fillEmployeeFields(firstNameField, lastNameField, departmentJComboBox, phoneField, emailField, addressField, salaryField, birthdayField, hiringField);
                 EmployeeDto employeeDto = new EmployeeDto(FIRST_NAME, LAST_NAME, DEPARTMENT, PHONE, EMAIL, ADDRESS, SALARY, BIRTHDAY, HIRING_DATE);
                 employee.setUpdateDate(LocalDateTime.now());
                 model.setValueAt(employeeDto.getName(), row, 1);
@@ -141,7 +134,6 @@ public class EmployeeTable extends AbstractFrame {
                 model.setValueAt(employeeDto.getHiringDate(), row, 9);
                 employeeService.updateEmployee(employee, employeeDto);
                 FrameView.printEmployeeInfo(employee, "Employee " + employee.getId() + " success update");
-                frame.setVisible(false);
             } else {
                 showUpdateMessage();
             }
@@ -160,8 +152,7 @@ public class EmployeeTable extends AbstractFrame {
         };
     }
 
-    protected ActionListener getAllEmployeeByDepartment(EmployeeService employeeService, EmployeeController
-            employeeController, DepartmentService departmentService) {
+    public ActionListener getAllEmployeeByDepartment(EmployeeController employeeController, DepartmentService departmentService, JFrame mainFrame) {
         return e -> {
             JFrame jFrame = createFrame(250, 220, "Choose department");
             JPanel panel = new JPanel();
@@ -173,18 +164,9 @@ public class EmployeeTable extends AbstractFrame {
             panel.add(departmentJComboBox);
             JButton findButton = getButton("Find", panel);
             findButton.addActionListener(e1 -> {
-                Department department = (Department) departmentJComboBox.getSelectedItem();
-                List<Employee> allEml = employeeService.getEmployeeList();
-                List<Employee> allEmployeeByDepartment = new ArrayList<>();
-                for (Employee em : allEml) {
-                    if (em.getDepartment().equals(department)) {
-                        allEmployeeByDepartment.add(em);
-                    }
-                }
-                JLabel jLabel = new JLabel();
-                panel.add(jLabel);
-                createFrame(employeeService, allEmployeeByDepartment, employeeController, departmentService);
+                employeeController.getAllEmployeeByDepartment(departmentJComboBox, departmentService);
                 jFrame.setVisible(false);
+                mainFrame.setVisible(false);
             });
         };
     }

@@ -29,9 +29,9 @@ public class DepartmentController {
         this.departmentTable = departmentTable;
     }
 
-    public void getDepartmentList() {
+    public void getDepartmentList(EmployeeController employeeController) {
         List<Department> departmentList = departmentService.getDepartmentList();
-        departmentTable.createFrame(departmentService, departmentList, this);
+        departmentTable.createFrame(departmentService, departmentList, this,employeeController);
     }
 
 

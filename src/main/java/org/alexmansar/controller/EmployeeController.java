@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.alexmansar.model.Department;
 import org.alexmansar.model.Employee;
 import org.alexmansar.service.DepartmentService;
 import org.alexmansar.service.EmployeeService;
@@ -25,7 +26,7 @@ public class EmployeeController {
     EmployeeService employeeService;
     EmployeeTable employeeTable;
 
-    public EmployeeController( EmployeeService employeeService,EmployeeTable employeeTable) {
+    public EmployeeController(EmployeeService employeeService, EmployeeTable employeeTable) {
         this.employeeService = employeeService;
         this.employeeTable = employeeTable;
     }
@@ -33,6 +34,12 @@ public class EmployeeController {
 
     public void getEmployeeList(DepartmentService departmentService) {
         List<Employee> employeeList = employeeService.getEmployeeList();
+        employeeTable.createFrame(employeeService, employeeList, this, departmentService);
+    }
+
+    public void getAllEmployeeByDepartment(JComboBox<Department> departmentJComboBox, DepartmentService departmentService) {
+        Department department = (Department) departmentJComboBox.getSelectedItem();
+        List<Employee> employeeList = employeeService.getAllEmployeeByDepartment(department);
         employeeTable.createFrame(employeeService, employeeList, this, departmentService);
     }
 
@@ -55,7 +62,7 @@ public class EmployeeController {
 
     public void updateEmployee(UpdateFrame updateFrame, DepartmentService departmentService) {
         Employee employee = findById();
-        updateFrame.createEmployeeUpdateFrame(departmentService, employee);
+        updateFrame.createEmployeeUpdateFrame(departmentService, employeeService, employee);
     }
 
     public void addEmployee(AddFrame addFrame, DepartmentService departmentService) {
@@ -68,7 +75,7 @@ public class EmployeeController {
         if (employee == null) {
             JOptionPane.showMessageDialog(null, "id: " + id + " not found", "Error", JOptionPane.ERROR_MESSAGE);
             log.error("id: {} not found", id);
-            throw new RuntimeException();
+            //  throw new RuntimeException();
         }
         return employee;
     }

@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import org.alexmansar.model.Department;
 import org.alexmansar.service.DepartmentService;
 import org.alexmansar.utils.RegEx;
+import org.alexmansar.utils.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -170,5 +171,28 @@ public abstract class AbstractFrame extends JFrame {
     protected static JComboBox<Department> getDepartmentJComboBox(DepartmentService departmentService) {
         Department[] departments = departmentService.getDepartmentList().stream().toList().toArray(new Department[0]);
         return new JComboBox<>(departments);
+    }
+
+    protected void fillEmployeeFields(JTextField firstNameField, JTextField lastNameField, JComboBox<Department> departmentJComboBox, JTextField phoneField, JTextField emailField, JTextField addressField, JTextField salaryField, JTextField birthdayField, JTextField hiringField) {
+        FIRST_NAME = StringUtil.firstUpperCase(createText(firstNameField));
+        LAST_NAME = StringUtil.firstUpperCase(createText(lastNameField));
+        DEPARTMENT = (Department) departmentJComboBox.getSelectedItem();
+        EMAIL = StringUtil.firstUpperCase(createText(emailField));
+        PHONE = StringUtil.firstUpperCase(createText(phoneField));
+        ADDRESS = StringUtil.firstUpperCase(createText(addressField));
+        SALARY = Integer.parseInt((createText(salaryField)));
+        HIRING_DATE = createDate(hiringField);
+        BIRTHDAY = createDate(birthdayField);
+    }
+
+    protected void printChecksEmp() {
+        System.out.println(FIRST_NAME_CHECK);
+        System.out.println(LAST_NAME_CHECK);
+        System.out.println(PHONE_CHECK);
+        System.out.println(EMAIL_CHECK);
+        System.out.println(ADDRESS_CHECK);
+        System.out.println(SALARY_CHECK);
+        System.out.println(BIRTHDAY_CHECK);
+        System.out.println(HIRING_DATE_CHECK);
     }
 }

@@ -50,7 +50,7 @@ public class MainFrame extends AbstractFrame {
         JMenu info = getJMenu("Info");
         panel.setBackground(Color.LIGHT_GRAY);
 
-        ActionListener getDepartmentList = e -> departmentController.getDepartmentList();
+        ActionListener getDepartmentList = e -> departmentController.getDepartmentList(employeeController);
         ActionListener addDepartment = e -> departmentController.addDepartment(addFrame);
         ActionListener getDepartmentById = e -> departmentController.getDepartment();
         ActionListener removeDepartment = e -> departmentController.removeDepartment();

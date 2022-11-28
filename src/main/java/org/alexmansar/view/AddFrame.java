@@ -160,45 +160,36 @@ public class AddFrame extends AbstractFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
-                HIRING_DATE_CHECK = RegEx.checkHiringDate(hiringField, hiringLabel,birthdayField);
+                HIRING_DATE_CHECK = RegEx.checkHiringDate(hiringField, hiringLabel, birthdayField);
             }
         });
-
+        printChecksEmp();
 
         JButton addButton = getButton("NEW", panel);
         JButton clearButton = getButton("CLEAR", panel);
         addButton.addActionListener(e -> {
             if (FIRST_NAME_CHECK && LAST_NAME_CHECK && PHONE_CHECK && EMAIL_CHECK && ADDRESS_CHECK && SALARY_CHECK && BIRTHDAY_CHECK && HIRING_DATE_CHECK) {
-
-
-                FIRST_NAME = StringUtil.firstUpperCase(createText(firstNameField));
-                LAST_NAME = StringUtil.firstUpperCase(createText(lastNameField));
-                DEPARTMENT = (Department) departmentJComboBox.getSelectedItem();
-                EMAIL = StringUtil.firstUpperCase(createText(emailField));
-                PHONE = StringUtil.firstUpperCase(createText(phoneField));
-                ADDRESS = StringUtil.firstUpperCase(createText(addressField));
-                SALARY = Integer.parseInt(StringUtil.firstUpperCase(createText(salaryField)));
-                HIRING_DATE = createDate(hiringField);
-                BIRTHDAY = createDate(birthdayField);
+                fillEmployeeFields(firstNameField, lastNameField, departmentJComboBox, phoneField, emailField, addressField, salaryField, birthdayField, hiringField);
                 Employee employee = new Employee(FIRST_NAME, LAST_NAME, DEPARTMENT, PHONE, EMAIL, SALARY, ADDRESS, HIRING_DATE, BIRTHDAY);
+                printChecksEmp();
                 employeeService.addEmployee(employee);
-                FrameView.printEmployeeInfo(employee, "New department success create and added to DB");
+                FrameView.printEmployeeInfo(employee, "New employee success create and added to DB");
                 DefaultTableModel model;
-                if (!(table == null)) {
+                if ((table != null)) {
                     model = (DefaultTableModel) table.getModel();
                     model.addRow(new Object[]
                             {employee.getId(),
-                            employee.getName(),
-                            employee.getLastName(),
-                            employee.getDepartment(),
-                            employee.getPhone(),
-                            employee.getEmail(),
-                            employee.getAddress(),
-                            employee.getSalary(),
-                            employee.getBirthDate(),
-                            employee.getHiringDate(),
-                            employee.getCreateDate(),
-                            employee.getUpdateDate()});
+                                    employee.getName(),
+                                    employee.getLastName(),
+                                    employee.getDepartment().getName(),
+                                    employee.getPhone(),
+                                    employee.getEmail(),
+                                    employee.getAddress(),
+                                    employee.getSalary(),
+                                    employee.getBirthDate(),
+                                    employee.getHiringDate(),
+                                    employee.getCreateDate(),
+                                    employee.getUpdateDate()});
                 }
                 frame.setVisible(false);
                 clearEmployee(firstNameField, lastNameField,
