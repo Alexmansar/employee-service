@@ -1,6 +1,7 @@
 package org.alexmansar.service.impl;
 
 import org.alexmansar.model.Department;
+import org.alexmansar.model.Employee;
 import org.alexmansar.model.dto.DepartmentDto;
 import org.alexmansar.repository.DepartmentRepository;
 import org.alexmansar.service.DepartmentService;
@@ -37,5 +38,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void removeDepartment(Department department) {
         departmentRepository.removeDepartment(department);
+    }
+
+    @Override
+    public List<Employee> getAllEmployeeByDepartment(Department department) {
+        return departmentRepository.getAllEmployeeByDepartment(department);
     }
 }

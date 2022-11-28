@@ -6,11 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.model.Department;
+import org.alexmansar.model.Employee;
 import org.alexmansar.service.DepartmentService;
-import org.alexmansar.view.AddFrame;
-import org.alexmansar.view.DepartmentTable;
-import org.alexmansar.view.FrameView;
-import org.alexmansar.view.UpdateFrame;
+import org.alexmansar.view.*;
 
 import javax.swing.*;
 import java.util.List;
@@ -31,7 +29,7 @@ public class DepartmentController {
 
     public void getDepartmentList(EmployeeController employeeController) {
         List<Department> departmentList = departmentService.getDepartmentList();
-        departmentTable.createFrame(departmentService, departmentList, this,employeeController);
+        departmentTable.createFrame(departmentService, departmentList, this, employeeController);
     }
 
 
@@ -54,7 +52,11 @@ public class DepartmentController {
     public void updateDepartment(UpdateFrame updateFrame) {
         Department department = findById();
         updateFrame.createDepartmentUpdateFrame(departmentService, department);
+    }
 
+    public void getEmployeeList(Department department, EmployeeTable employeeTable, EmployeeController employeeController) {
+        List<Employee> employeeList = departmentService.getAllEmployeeByDepartment(department);
+        employeeTable.createFrame(employeeController.getEmployeeService(), employeeList, employeeController, departmentService);
     }
 
     public void addDepartment(AddFrame addFrame) {

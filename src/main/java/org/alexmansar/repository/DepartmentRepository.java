@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.model.Department;
+import org.alexmansar.model.Employee;
 import org.alexmansar.model.dto.DepartmentDto;
 
 import java.util.List;
@@ -35,6 +36,10 @@ public class DepartmentRepository extends AbstractRepository {
             log.error(e.getMessage());
         }
         return null;
+    }
+
+    public List<Employee> getAllEmployeeByDepartment(Department department) {
+        return department.getEmployeeList();
     }
 
     public void addDepartment(Department department) {
