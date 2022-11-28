@@ -5,9 +5,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
-import org.alexmansar.model.Department;
+import org.alexmansar.controller.dto.EmployeeDto;
 import org.alexmansar.model.Employee;
-import org.alexmansar.model.dto.EmployeeDto;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +29,7 @@ public class EmployeeRepository extends AbstractRepository {
 
     public Employee getEmployee(long id) {
         try {
-            transaction = session.beginTransaction();
-            Employee employee = session.find(Employee.class, id);
-            transaction.commit();
-            return employee;
+            return session.find(Employee.class, id);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -63,9 +59,6 @@ public class EmployeeRepository extends AbstractRepository {
         }
     }
 
-    public List<Employee> getAllEmployeeByDepartment(Department department) {
-        return department.getEmployeeList();
-    }
 
     public void removeEmployee(Employee employee) {
         removeModel(employee);

@@ -1,8 +1,7 @@
 package org.alexmansar.service;
 
-import org.alexmansar.model.Department;
+import org.alexmansar.controller.dto.EmployeeDto;
 import org.alexmansar.model.Employee;
-import org.alexmansar.model.dto.EmployeeDto;
 
 import java.util.List;
 
@@ -17,5 +16,4 @@ public interface EmployeeService {
 
     void removeEmployee(Employee employee);
 
-    List<Employee> getAllEmployeeByDepartment(Department department);
 }

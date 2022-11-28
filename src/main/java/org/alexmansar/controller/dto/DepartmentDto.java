@@ -1,4 +1,4 @@
-package org.alexmansar.model.dto;
+package org.alexmansar.controller.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

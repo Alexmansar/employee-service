@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.controller.EmployeeController;
 import org.alexmansar.model.Department;
 import org.alexmansar.model.Employee;
-import org.alexmansar.model.dto.EmployeeDto;
+import org.alexmansar.controller.dto.EmployeeDto;
 import org.alexmansar.service.DepartmentService;
 import org.alexmansar.service.EmployeeService;
 import org.alexmansar.utils.RegEx;

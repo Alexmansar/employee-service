@@ -25,7 +25,8 @@ public class FrameView {
             String message = "id: " + department.getId() + "\n"
                     + "department: " + department.getName() + "\n"
                     + "create date: " + department.getCreateDate().toString() + "\n"
-                    + "update date: " + department.getUpdateDate() + "\n";
+                    + "update date: " + department.getUpdateDate() + "\n"
+                    + "number of employees: " + department.getEmployeeList().size() + "\n";
             JOptionPane.showMessageDialog(null, message, str, JOptionPane.INFORMATION_MESSAGE);
         } catch (NullPointerException e) {
             log.error(e.getMessage());

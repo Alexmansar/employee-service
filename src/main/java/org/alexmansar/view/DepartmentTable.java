@@ -1,9 +1,8 @@
 package org.alexmansar.view;
 
 import org.alexmansar.controller.DepartmentController;
-import org.alexmansar.controller.EmployeeController;
+import org.alexmansar.controller.dto.DepartmentDto;
 import org.alexmansar.model.Department;
-import org.alexmansar.model.dto.DepartmentDto;
 import org.alexmansar.service.DepartmentService;
 import org.alexmansar.utils.RegEx;
 import org.alexmansar.utils.StringUtil;
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class DepartmentTable extends AbstractTable {
 
-    private void createGUI(String[][] data, DepartmentService departmentService, DepartmentController departmentController, EmployeeController employeeController) {
+    private void createGUI(String[][] data, DepartmentService departmentService, DepartmentController departmentController) {
         JFrame frame = createFrame(500, 400, "DEPARTMENT");
         JPanel mainPane = getPanel(frame);
         mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.Y_AXIS));
@@ -42,8 +41,6 @@ public class DepartmentTable extends AbstractTable {
         table.getColumnModel().getColumn(2).setPreferredWidth(145);
         table.getColumnModel().getColumn(3).setPreferredWidth(145);
         ActionListener addDepartmentListener = addListener(departmentService, table, addPanel, departmentNameField);
-        //ActionListener getAllEmployeesByDepartment = employeeController.getEmployeeTable().getAllEmployeeByDepartment(employeeController, departmentService, null);
-        ActionListener getAllEmployeesByDepartment = getAllEmployeeByDepartment(departmentController, employeeController, departmentService, employeeController.getEmployeeTable(), table);
         ActionListener getDepartmentById = e -> departmentController.getDepartment();
         ActionListener removeDepartmentListener = getRemoveListener(departmentService, table);
         ActionListener updateDepartmentListener = updateListener(departmentService, table);
@@ -52,29 +49,11 @@ public class DepartmentTable extends AbstractTable {
         getButton("Update", buttonPane, updateDepartmentListener);
         JButton clearButton = getButton("CLEAR", addPanel);
         clearDepartmentMouseListener(clearButton, departmentNameField);
-        // getButton("Print all employees by department", buttonPane, getAllEmployeesByDepartment);
-        getButton("Print all employees by department", buttonPane, getAllEmployeesByDepartment);
         getButton("Find by id", buttonPane, getDepartmentById);
         frame.pack();
         frame.setVisible(true);
     }
 
-
-    public ActionListener getAllEmployeeByDepartment(DepartmentController controller, EmployeeController employeeController, DepartmentService departmentService, EmployeeTable employeeTable, JTable table) {
-        return e -> {
-            int row = table.getSelectedRow();
-            String name = table.getValueAt(row, 1).toString();
-            List<Department> departmentList = departmentService.getDepartmentList();
-            Department department = null;
-
-            for (Department value : departmentList) {
-                if (value.getName().equals(name)) {
-                    department = value;
-                }
-            }
-            controller.getEmployeeList(department, employeeTable, employeeController);
-        };
-    }
 
 
     private ActionListener addListener(DepartmentService departmentService, JTable table, JPanel panel, JTextField departmentNameField) {
@@ -145,11 +124,11 @@ public class DepartmentTable extends AbstractTable {
     }
 
     public void createFrame(DepartmentService departmentService, List<Department> departments,
-                            DepartmentController departmentController, EmployeeController employeeController) {
+                            DepartmentController departmentController ) {
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame.setDefaultLookAndFeelDecorated(true);
             String[][] data = getDeepArrayFromList(departments);
-            createGUI(data, departmentService, departmentController, employeeController);
+            createGUI(data, departmentService, departmentController);
         });
     }
 

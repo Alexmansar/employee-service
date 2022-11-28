@@ -5,9 +5,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
+import org.alexmansar.controller.dto.DepartmentDto;
 import org.alexmansar.model.Department;
-import org.alexmansar.model.Employee;
-import org.alexmansar.model.dto.DepartmentDto;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,23 +22,16 @@ public class DepartmentRepository extends AbstractRepository {
         criteriaQuery.select(departmentRoot);
         Query query = session.createQuery(criteriaQuery);
         //noinspection unchecked
-        return (List<Department>) query.getResultList();
+        return  query.getResultList();
     }
 
     public Department getDepartment(long id) {
         try {
-            transaction = session.beginTransaction();
-            Department department = session.find(Department.class, id);
-            transaction.commit();
-            return department;
+            return session.find(Department.class, id);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         return null;
-    }
-
-    public List<Employee> getAllEmployeeByDepartment(Department department) {
-        return department.getEmployeeList();
     }
 
     public void addDepartment(Department department) {

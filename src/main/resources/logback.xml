@@ -3,9 +3,9 @@
     <property name="LOG_FOLDER" value="./logs"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FOLDER}/logger%d.log</file>
+        <file>${LOG_FOLDER}/logger.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logger%d.log</fileNamePattern>
+            <fileNamePattern>${LOG_FOLDER}/logger%d.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>

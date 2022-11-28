@@ -26,7 +26,6 @@ public abstract class AbstractRepository {
             session.remove(model);
             transaction.commit();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             log.error(e.getMessage());
             Objects.requireNonNull(transaction).rollback();
         }

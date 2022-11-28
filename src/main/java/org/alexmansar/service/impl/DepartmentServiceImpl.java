@@ -1,17 +1,18 @@
 package org.alexmansar.service.impl;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.alexmansar.controller.dto.DepartmentDto;
 import org.alexmansar.model.Department;
-import org.alexmansar.model.Employee;
-import org.alexmansar.model.dto.DepartmentDto;
 import org.alexmansar.repository.DepartmentRepository;
 import org.alexmansar.service.DepartmentService;
 
 import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
-        this.departmentRepository = departmentRepository;
-    }
 
     DepartmentRepository departmentRepository;
 
@@ -38,10 +39,5 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void removeDepartment(Department department) {
         departmentRepository.removeDepartment(department);
-    }
-
-    @Override
-    public List<Employee> getAllEmployeeByDepartment(Department department) {
-        return departmentRepository.getAllEmployeeByDepartment(department);
     }
 }

@@ -1,20 +1,20 @@
 package org.alexmansar.service.impl;
 
-import org.alexmansar.model.Department;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.alexmansar.controller.dto.EmployeeDto;
 import org.alexmansar.model.Employee;
-import org.alexmansar.model.dto.EmployeeDto;
 import org.alexmansar.repository.EmployeeRepository;
 import org.alexmansar.service.EmployeeService;
 
 import java.util.List;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     EmployeeRepository employeeRepository;
-
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
 
     @Override
     public List<Employee> getEmployeeList() {
@@ -39,10 +39,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void removeEmployee(Employee employee) {
         employeeRepository.removeEmployee(employee);
-    }
-    @Override
-    public List<Employee> getAllEmployeeByDepartment(Department department) {
-        return employeeRepository.getAllEmployeeByDepartment(department);
     }
 
 }

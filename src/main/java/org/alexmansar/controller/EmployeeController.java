@@ -2,7 +2,7 @@ package org.alexmansar.controller;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmansar.model.Department;
@@ -16,20 +16,16 @@ import org.alexmansar.view.UpdateFrame;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Objects;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 @Getter
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class EmployeeController {
 
     EmployeeService employeeService;
     EmployeeTable employeeTable;
-
-    public EmployeeController(EmployeeService employeeService, EmployeeTable employeeTable) {
-        this.employeeService = employeeService;
-        this.employeeTable = employeeTable;
-    }
 
 
     public void getEmployeeList(DepartmentService departmentService) {
@@ -39,7 +35,7 @@ public class EmployeeController {
 
     public void getAllEmployeeByDepartment(JComboBox<Department> departmentJComboBox, DepartmentService departmentService) {
         Department department = (Department) departmentJComboBox.getSelectedItem();
-        List<Employee> employeeList = employeeService.getAllEmployeeByDepartment(department);
+        List<Employee> employeeList = Objects.requireNonNull(department).getEmployeeList();
         employeeTable.createFrame(employeeService, employeeList, this, departmentService);
     }
 
@@ -75,7 +71,7 @@ public class EmployeeController {
         if (employee == null) {
             JOptionPane.showMessageDialog(null, "id: " + id + " not found", "Error", JOptionPane.ERROR_MESSAGE);
             log.error("id: {} not found", id);
-            //  throw new RuntimeException();
+
         }
         return employee;
     }
